@@ -38,3 +38,13 @@ class User(db.Model):
         role (str): Defines the user's role (e.g., 'farmer', 'buyer', 'transporter').
         join_date (datetime): Date the user joined (default = current time).
     """
+
+    __tablename__ = 'user'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    surname = db.Column(db.String(100), nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    phone = db.Column(db.String(20))
+    password = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(20), default='farmer')
+    join_date = db.Column(db.DateTime, default=datetime.now(datetime.timetz))
