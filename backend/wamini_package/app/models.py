@@ -16,3 +16,10 @@ Each model includes:
     - Relationship fields via foreign keys
     - A `to_dict()` method for easy JSON serialization
 """
+from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+
+
+# Initialize SQLAlchemy intance (to be bound in app factory)
+db = SQLAlchemy()
+
