@@ -23,3 +23,18 @@ from flask_sqlalchemy import SQLAlchemy
 # Initialize SQLAlchemy intance (to be bound in app factory)
 db = SQLAlchemy()
 
+
+class User(db.Model):
+    """
+    Represents a registered user in the Wamini platform.
+
+    Attributes:
+        id (int): Primary key
+        name (str): user's first name.
+        surname (str): user's surname.
+        email (str): Unique email address (used for login).
+        phone (str): Phone number.
+        password (str): Hashed password for authentication.
+        role (str): Defines the user's role (e.g., 'farmer', 'buyer', 'transporter').
+        join_date (datetime): Date the user joined (default = current time).
+    """
