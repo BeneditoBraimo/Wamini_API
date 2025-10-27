@@ -61,17 +61,28 @@ class User(db.Model):
 
 class Product(db.Model):
     """
-    Represents a product listed by a user for sale.
+    Represents a product published by a user for sale.
 
     Attributes:
-        id (int): Primary key.
+        id (int): Primary key identifier.
         name (str): Product name.
-        price (float): Product price.
-        category (str): Product category (e.g., 'grains', 'vegetables').
-        publish_date (datetime): Timestamp when the product was posted.
-        user_id (int): Foreign key referencing the seller (User).
+        quantity (int): Quantity available.
+        price (float): Unit price.
+        publish_date (datetime): Date and time of product publication.
+        photo (str): Optional product image (path or URL).
+        user_id (int): Foreign key linking to the publishing user.
     """
 
-    __tablename__ = 'product'
+    __tablename__ = 'products'
+
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    publish_date = db.Column(db.DateTime, default=datetime.utcnow)
+    photo = db.Column(db.String(255))
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f"<Product id={self.id} name={self.name!r} price={self.price}>"
