@@ -42,13 +42,9 @@ class User(db.Model):
     __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
-    surname = db.Column(db.String(100), nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
     phone = db.Column(db.String(20))
     password = db.Column(db.String(100), nullable=False)
-    role = db.Column(db.String(20), default='farmer')
-    join_date = db.Column(db.DateTime, default=datetime.now(datetime.timetz))
-
+    
     def to_dict(self):
         """Serialize User object into a dictionary."""
         return {
@@ -74,3 +70,7 @@ class Product(db.Model):
         publish_date (datetime): Timestamp when the product was posted.
         user_id (int): Foreign key referencing the seller (User).
     """
+
+    __tablename__ = 'product'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
