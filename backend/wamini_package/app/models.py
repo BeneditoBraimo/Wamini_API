@@ -141,3 +141,31 @@ class Transport(db.Model):
     def __repr__(self):
         return f"<Transport id={self.id} type={self.type!r} rate={self.price_per_km}/km>"
 
+class Negotiation(db.Model):
+    """
+    Represents a negotiation or conversation between users.
+
+    Attributes:
+        id (int): Primary key identifier.
+        messages (JSON): List of messages exchanged, formatted as:
+                         [{'from': <user_id>, 'body': <text>, 'att': <optional_attachment>}].
+        created_at (datetime): Timestamp of creation.
+        user_id (int): The ID of the user initiating the negotiation.
+        product_id (int): Optional link to a Product under discussion.
+        input_id (int): Optional link to an Input under discussion.
+        transport_id (int): Optional link to a Transport under discussion.
+    """
+
+    __tablename__ = 'negotiations'
+
+    id = db.Column(db.Integer, primary_key=True)
+    messages = db.Column(db.JSON, nullable=False, default=list)
+    created_at = db.Column(db.DateTime, default=datetime.utcnow)
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
+    input_id = db.Column(db.Integer, db.ForeignKey('inputs.id'))
+    transport_id = db.Column(db.Integer, db.ForeignKey('transports.id'))
+
+    def __repr__(self):
+        return f"<Negotiation id={self.id} user_id={self.user_id}>"
