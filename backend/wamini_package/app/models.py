@@ -48,3 +48,15 @@ class User(db.Model):
     password = db.Column(db.String(100), nullable=False)
     role = db.Column(db.String(20), default='farmer')
     join_date = db.Column(db.DateTime, default=datetime.now(datetime.timetz))
+
+    def to_dict(self):
+        """Serialize User object into a dictionary."""
+        return {
+            'id': self.id,
+            'name': self.name,
+            'surname': self.surname,
+            'email': self.email,
+            'phone': self.phone,
+            'role': self.role,
+            'join_date': self.join_date.isoformat()
+        }
