@@ -110,3 +110,34 @@ class Input(db.Model):
     price = db.Column(db.Float, nullable=False)
     publish_date = db.Column(db.DateTime, default=datetime.utcnow)
     photo = db.Column(db.String(255))
+
+
+
+class Transport(db.Model):
+    """
+    Represents a transport service offered by a user.
+
+    Attributes:
+        id (int): Primary key identifier.
+        type (str): Vehicle type (e.g., Moto Bike, Mini Truck, Truck).
+        name (str): Vehicle or service name.
+        price_per_km (float): Price charged per kilometer.
+        publish_date (datetime): Date and time of publication.
+        photo (str): Optional vehicle image (path or URL).
+        user_id (int): Foreign key linking to the publishing user.
+    """
+
+    __tablename__ = 'transports'
+
+    id = db.Column(db.Integer, primary_key=True)
+    type = db.Column(db.String(50), nullable=False)
+    name = db.Column(db.String(120), nullable=False)
+    price_per_km = db.Column(db.Float, nullable=False)
+    publish_date = db.Column(db.DateTime, default=datetime.utcnow)
+    photo = db.Column(db.String(255))
+
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+
+    def __repr__(self):
+        return f"<Transport id={self.id} type={self.type!r} rate={self.price_per_km}/km>"
+
