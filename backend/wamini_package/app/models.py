@@ -60,3 +60,17 @@ class User(db.Model):
             'role': self.role,
             'join_date': self.join_date.isoformat()
         }
+    
+
+class Product(db.Model):
+    """
+    Represents a product listed by a user for sale.
+
+    Attributes:
+        id (int): Primary key.
+        name (str): Product name.
+        price (float): Product price.
+        category (str): Product category (e.g., 'grains', 'vegetables').
+        publish_date (datetime): Timestamp when the product was posted.
+        user_id (int): Foreign key referencing the seller (User).
+    """
