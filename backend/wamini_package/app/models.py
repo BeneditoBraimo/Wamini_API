@@ -1,21 +1,18 @@
 """
 models.py
+----------
+This module defines the database schema for the Wamini API using SQLAlchemy ORM.
+It includes the following main entities:
 
-This module defines all SQLAlchemy ORM models for the Wamini API backend.
+- User: Represents users of the platform.
+- Product: Represents agricultural products published by users.
+- Input: Represents agricultural inputs (e.g., fertilizers, seeds).
+- Transport: Represents transport services offered by users.
+- Negotiation: Represents communication or message exchanges between users.
 
-Models:
-    - User: Represents platform users (farmers, buyers, transporters, etc.)
-    - Product: Represents agricultural products listed by users.
-    - Input: Represents agricultural inputs for sale (e.g., fertilizer, seeds).
-    - Transport: Represents available transport services for logistics.
-    - Negotiation: Represents ongoing or completed trade negotiations.
-    - Message: Represents communication between users.
-
-Each model includes:
-    - SQLAlchemy column definitions
-    - Relationship fields via foreign keys
-    - A `to_dict()` method for easy JSON serialization
+Each model includes relationship mappings to maintain referential integrity.
 """
+
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
@@ -31,6 +28,7 @@ class User(db.Model):
     Attributes:
         id (int): Primary key
         name (str): user's first name.
+        location (str): user's location.
         phone (str): Phone number.
         password (str): Hashed password for authentication.
     """
@@ -39,7 +37,7 @@ class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     location = db.Cplumn(db.String(100), nullable=False)
-    phone = db.Column(db.String(20))
+    mobile_number = db.Column(db.String(20))
     password = db.Column(db.String(100), nullable=False)
     
     def to_dict(self):
@@ -47,11 +45,9 @@ class User(db.Model):
         return {
             'id': self.id,
             'name': self.name,
-            'surname': self.surname,
-            'email': self.email,
-            'phone': self.phone,
-            'role': self.role,
-            'join_date': self.join_date.isoformat()
+            'mobile_number': self.phone,
+            'location': self.location,
+            'password': self.password,
         }
     
 
