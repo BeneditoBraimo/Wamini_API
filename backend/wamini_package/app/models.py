@@ -23,32 +23,22 @@ db = SQLAlchemy()
 
 class User(db.Model):
     """
-    Represents a registered user in the Wamini platform.
+    Represents a registered user in the Wamini system.
 
     Attributes:
-        id (int): Primary key
-        name (str): user's first name.
-        location (str): user's location.
-        phone (str): Phone number.
+        id (int): Primary key identifier.
+        name (str): Full name of the user.
+        localization (str): User's geographic location.
         password (str): Hashed password for authentication.
+        mobile_number (str): Unique mobile contact of the user.
+        photo (str): Optional path or URL to user's profile photo.
+    Relationships:
+        products (list[Product]): Products published by this user.
+        inputs (list[Input]): Agricultural inputs published by this user.
+        transports (list[Transport]): Transport services published by this user.
+        negotiations (list[Negotiation]): Negotiations initiated by this user.
     """
-
-    __tablename__ = 'user'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    location = db.Cplumn(db.String(100), nullable=False)
-    mobile_number = db.Column(db.String(20))
-    password = db.Column(db.String(100), nullable=False)
     
-    def to_dict(self):
-        """Serialize User object into a dictionary."""
-        return {
-            'id': self.id,
-            'name': self.name,
-            'mobile_number': self.phone,
-            'location': self.location,
-            'password': self.password,
-        }
     
 
 class Product(db.Model):
