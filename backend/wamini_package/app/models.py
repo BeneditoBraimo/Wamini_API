@@ -86,3 +86,27 @@ class Product(db.Model):
 
     def __repr__(self):
         return f"<Product id={self.id} name={self.name!r} price={self.price}>"
+
+
+class Input(db.Model):
+    """
+    Represents an agricultural input published by a user.
+
+    Attributes:
+        id (int): Primary key identifier.
+        name (str): Input name (e.g., seeds, fertilizer).
+        quantity (int): Available quantity.
+        price (float): Unit price.
+        publish_date (datetime): Date and time of publication.
+        photo (str): Optional input image (path or URL).
+        user_id (int): Foreign key linking to the publishing user.
+    """
+
+    __tablename__ = 'inputs'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    quantity = db.Column(db.Integer, nullable=False)
+    price = db.Column(db.Float, nullable=False)
+    publish_date = db.Column(db.DateTime, default=datetime.utcnow)
+    photo = db.Column(db.String(255))
