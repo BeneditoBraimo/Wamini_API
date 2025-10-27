@@ -38,7 +38,25 @@ class User(db.Model):
         transports (list[Transport]): Transport services published by this user.
         negotiations (list[Negotiation]): Negotiations initiated by this user.
     """
-    
+    __tablename__ = 'users'
+
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(120), nullable=False)
+    localization = db.Column(db.String(255))
+    password = db.Column(db.String(255), nullable=False)
+    mobile_number = db.Column(db.String(20), unique=True, nullable=False)
+    photo = db.Column(db.String(255))
+
+    # Relationships
+    products = db.relationship('Product', backref='user', lazy=True)
+    inputs = db.relationship('Input', backref='user', lazy=True)
+    transports = db.relationship('Transport', backref='user', lazy=True)
+    negotiations = db.relationship('Negotiation', backref='user', lazy=True)
+
+    def __repr__(self):
+        return f"<User id={self.id} name={self.name!r}>"
+
+
     
 
 class Product(db.Model):
