@@ -80,3 +80,28 @@ def get_profile():
         "mobile_number": user.mobile_number,
         "photo": user.photo
     }), 200
+
+
+#------------------------------------------------------------------------------------------
+#   PRODUCT ROUTES
+#------------------------------------------------------------------------------------------
+
+@product_bp.route("", methods=["POST"])
+@jwt_required
+def add_product():
+    """Publish a new product."""
+    user_id = get_jwt_identity()
+    data = request.get_json()
+
+    product = Product(
+        name=data["name"],
+        quantity=data["quantity"],
+        price=data["price"],
+        photo=data["photo"],
+        user_id=user_id
+    )
+
+    db.session.add(product)
+    db.session.commit()
+
+    return jsonify({"message": "Product added successfully", "product_id": product.id}), 201
