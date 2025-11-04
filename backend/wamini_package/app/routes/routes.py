@@ -25,3 +25,28 @@ product_bp = Blueprint("products", __name__, url_prefix="api/v1/products")
 input_bp = Blueprint("inputs", __name__, url_prefix="/api/v1/inputs")
 transport_bp = Blueprint("transports", __name__, url_prefix="/api/v1/transports")
 negotiation_bp = Blueprint("negotiations", __name__, url_prefix="/api/v1/negotiations")
+
+#-------------------------------------------------------------------------------------
+# USER ROUTES
+#-------------------------------------------------------------------------------------
+
+@user_bp.route("/register", methods=["POST"])
+def register_user():
+    "register a new user"
+    data = request.get_json()
+    if User.filter_by(mobile_number=data.get("mobile_number").first()):
+        return jsonify({"error": "Mobile number already registered"}), 409
+    
+    hashed_pw = generate_password_hash(data.get("password"))
+
+    user = User(
+        name = data.get("name"),
+        localization = data.get("localization"),
+        password = hashed_pw,
+        mobile_number=data.get("mobile_number"),
+        photo=data.get("photo")
+    )
+
+    db.session.add(user)
+    db.session.commit()
+    return jsonify({"message":"User successfully registered.", "user_id": user.id}), 201
