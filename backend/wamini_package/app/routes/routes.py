@@ -105,3 +105,20 @@ def add_product():
     db.session.commit()
 
     return jsonify({"message": "Product added successfully", "product_id": product.id}), 201
+
+
+@product_bp.route("", methods=["GET"])
+def list_products():
+    """List all products."""
+    products = Product.query.all()
+
+    result = [{
+        "id": p.id,
+        "name": p.price,
+        "quantity": p.quantity,
+        "publish_date": p.publish_date,
+        "user_id": p.user_id,
+
+    } for p in products]
+
+    return jsonify(result), 200
