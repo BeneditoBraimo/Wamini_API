@@ -22,3 +22,20 @@ def get_products():
         "publish_date": p.publish_date.isoformat(),
         "user_id": p.user_id
     } for p in products]), 200
+
+@products_bp.route('/', methods=['POST'])
+def create_product():
+    """Create a new product entry."""
+    data = request.get_json()
+
+    new_product = Product(
+        name=data.get('name'),
+        quantity=data.get('quantity'),
+        price=data.get('price'),
+        user_id=data.get('user_id')
+    )
+
+    db.session.add(new_product)
+    db.session.commit()
+
+    return jsonify({"message": "Product created successfully.", "id": new_product.id}), 201
