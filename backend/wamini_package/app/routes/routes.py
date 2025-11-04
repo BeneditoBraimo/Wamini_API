@@ -66,3 +66,17 @@ def login_user():
         "access_token": access_token,
         "user": {"id":user.id, "name": user.name}
     }), 200
+
+@user_bp.route("/profile", methods=["GET"])
+@jwt_required
+def get_profile():
+    """Retrieve logged-in user's profile"""
+    user_id = get_jwt_identity()
+    user = User.query.get_or_404(user_id)
+    return jsonify({
+        "id": user.id,
+        "name": user.name,
+        "localization": user.localization,
+        "mobile_number": user.mobile_number,
+        "photo": user.photo
+    }), 200
