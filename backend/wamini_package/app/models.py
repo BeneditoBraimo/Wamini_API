@@ -169,3 +169,55 @@ class Negotiation(db.Model):
 
     def __repr__(self):
         return f"<Negotiation id={self.id} user_id={self.user_id}>"
+
+
+class Message(db.Model):
+    """
+    Represents an individual message exchanged within a negotiation thread.
+
+    This model is part of the communication layer of the Wamini API.
+    Each message belongs to a specific negotiation (conversation) and
+    is sent by a registered user.
+
+    Attributes
+    ----------
+    id : int
+        Primary key that uniquely identifies each message.
+    sender_id : int
+        Foreign key referencing the user who sent the message.
+    negotiation_id : int
+        Foreign key referencing the negotiation to which this message belongs.
+    body : str
+        The text content of the message.
+    attachment : str, optional
+        A path or URL pointing to an attachment (e.g., image, document, etc.).
+        May be NULL if no file is attached.
+    timestamp : datetime
+        The UTC timestamp indicating when the message was created.
+
+    Relationships
+    -------------
+    negotiation : Negotiation
+        The parent negotiation that groups related messages.
+    sender : User
+        The user who authored this message.
+
+    Notes
+    -----
+    - `timestamp` is timezone-aware (UTC) for consistency across deployments.
+    - Cascade deletion ensures that messages are removed when their negotiation
+      is deleted, maintaining referential integrity.
+    """
+
+    __tablename__ = 'messages'
+
+    id = db.Column(db.Integer, primary_key=True)
+    sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
+    negotiation_id = db.Column(db.Integer, db.ForeignKey('negotiations.id'), nullable=False)
+    body = db.Column(db.Text, nullable=False)
+    attachment = db.Column(db.String(255))
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(datetime.timezone.utc))
+
+    def __repr__(self):
+        """Return a string representation for debugging."""
+        return f"<Message id={self.id} from={self.sender_id} negotiation={self.negotiation_id}>"
