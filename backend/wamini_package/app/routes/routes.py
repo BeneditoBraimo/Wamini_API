@@ -122,3 +122,18 @@ def list_products():
     } for p in products]
 
     return jsonify(result), 200
+
+@product_bp.route("/<int:product_id>", methods=["DELETE"])
+@jwt_required
+def delete_product(product_id):
+    """Delete a product (only by the owner)"""
+    user_id = get_jwt_identity()
+    product = Product.query.get_or_404(product_id)
+
+    if product_id.user_id != user_id:
+        return jsonify({"error": "unauthorized"}), 403
+    
+    db.session.delete(product)
+    db.session.commit()
+    return jsonify({"message": "Product deleted."}), 200
+
