@@ -215,7 +215,6 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     negotiation_id = db.Column(db.Integer, db.ForeignKey('negotiations.id'), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    attachment = db.Column(db.String(255))
     timestamp = db.Column(db.DateTime, default=lambda: datetime.now(datetime.timezone.utc))
 
     def __repr__(self):
