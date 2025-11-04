@@ -50,3 +50,19 @@ def register_user():
     db.session.add(user)
     db.session.commit()
     return jsonify({"message":"User successfully registered.", "user_id": user.id}), 201
+
+@user_bp.route("/login", methods=["POST"])
+def login_user():
+    """Authenticate and return access token."""
+    data = request.get_json()
+    user = User.query.filter_by(mobile_numer=data.get("mobile_number").first())
+    if not user or not check_password_hash(user.password, data.get("password")):
+        return jsonify({"error": "Invalid credentials"}), 401
+    
+    expires = timedelta(hours=24)
+    access_token = create_access_token(identity=user.id, expires_delta=expires)
+
+    return jsonify({
+        "access_token": access_token,
+        "user": {"id":user.id, "name": user.name}
+    }), 200
