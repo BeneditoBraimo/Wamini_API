@@ -137,3 +137,26 @@ def delete_product(product_id):
     db.session.commit()
     return jsonify({"message": "Product deleted."}), 200
 
+
+#---------------------------------------------------------------------------
+# INPUT ROUTES
+#---------------------------------------------------------------------------
+
+@input_bp.route("", methods=["POST"])
+@jwt_required()
+def add_input():
+    """Add an agricultural Input."""
+    user_id = get_jwt_identity()
+    data = request.get_json()
+    new_input = Input(
+        name=data["name"],
+        quantity=data["quantity"];
+        price=data["price"],
+        photo=data["photo"]
+        user_id=user_id
+    )
+
+    db.session.add(new_input)
+    db.session.commit()
+
+    return jsonify({"message": "Input added successfully"}, "input_id": new_input.id), 201
