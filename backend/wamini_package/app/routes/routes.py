@@ -160,3 +160,21 @@ def add_input():
     db.session.commit()
 
     return jsonify({"message": "Input added successfully", "input_id": new_input.id}), 201
+
+
+@input_bp.route("", methods=["GET"])
+def list_inputs():
+    """List all agricultural inputs"""
+
+    inputs = Input.query.all()
+
+    result = [{
+        "id":i.id,
+        "name":i.name,
+        "price": i.price,
+        "quantity": i.quantity,
+        "publish_date": i.publish_date,
+        "user_id": i.user_id
+    } for i in inputs]
+
+    return jsonify(result), 200
