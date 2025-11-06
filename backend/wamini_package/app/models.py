@@ -119,7 +119,7 @@ class Transport(db.Model):
 
     Attributes:
         id (int): Primary key identifier.
-        type (str): Vehicle type (e.g., Moto Bike, Mini Truck, Truck).
+        transport_type (str): Vehicle type (e.g., Moto Bike, Mini Truck, Truck).
         name (str): Vehicle or service name.
         price_per_km (float): Price charged per kilometer.
         publish_date (datetime): Date and time of publication.
@@ -130,7 +130,7 @@ class Transport(db.Model):
     __tablename__ = 'transports'
 
     id = db.Column(db.Integer, primary_key=True)
-    type = db.Column(db.String(50), nullable=False)
+    transport_type = db.Column(db.String(50), nullable=False)
     name = db.Column(db.String(120), nullable=False)
     price_per_km = db.Column(db.Float, nullable=False)
     publish_date = db.Column(db.DateTime, default=datetime.utcnow)
