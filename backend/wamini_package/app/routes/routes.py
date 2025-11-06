@@ -159,4 +159,4 @@ def add_input():
     db.session.add(new_input)
     db.session.commit()
 
-    return jsonify({"message": "Input added successfully"}, "input_id": new_input.id), 201
+    return jsonify({"message": "Input added successfully", "input_id": new_input.id}), 201
