@@ -17,3 +17,23 @@ from .routes import (
     transport_bp,
     negotiation_bp
 )
+
+
+def create_app():
+    """
+        Application factory that initializes Flask app and registers all route blueprints.
+        Returns:
+            app (Flask): configured Flask application instance.
+    """
+
+    app = Flask(__name__)
+    CORS(app)
+
+    # Resister Blueprints with URL prefixes already defined in routes.py
+    app.register_blueprint(user_bp)
+    app.register_blueprint(product_bp)
+    app.register_blueprint(input_bp)
+    app.register_blueprint(transport_bp)
+    app.register_blueprint(negotiation_bp)
+
+    return app
