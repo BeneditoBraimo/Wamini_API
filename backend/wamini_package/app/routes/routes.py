@@ -13,9 +13,9 @@ from flask import Blueprint, request, jsonify
 from flask import (create_access_token, jwt_required, get_jwt_identity)
 
 
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from werkzeug.security import generate_password_hash, check_password_hash
-from ..models import db, User, Product, Input, Transport, Negotiation
+from ..models import db, User, Product, Input, Transport, Negotiation, Message
 
 #---------------------------------------------------------------------------------
 # Blueprints Declarations
@@ -270,3 +270,42 @@ def list_negotiations():
     } for n in negotiations]
 
     return jsonify(result), 200
+
+
+# --------------------------------------------------------------------------------------------
+# MESSAGE ROUTES
+# --------------------------------------------------------------------------------------------
+
+@negotiation_bp.route("/<int:negotiation_id>/messages", methods=["POST"])
+@jwt_required()
+def send_message(negotiation_id):
+    """
+        Send a message within a negotiation thread.
+        Requires authentication. The sender must be a registered user.
+    """
+
+    user_id = get_jwt_identity()
+    data = request.get_json()
+
+    negotiation = Negotiation.query.get_or_404(negotiation_id)
+
+    message = Message(
+        sender_id=user_id,
+        negotiation_id=negotiation.id,
+        body=data.get("body"),
+        timestamp=datetime.now(timezone.utc)
+    )
+
+    db.session.add(message)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Message successfully sent.",
+        "data": {
+            "id": message.id,
+            "body": message.body,
+            "sender_id": user_id,
+            "negotiation_id": negotiation_id,
+            "timestamp": message.timestamp.isoformat()
+        }
+    }), 201
