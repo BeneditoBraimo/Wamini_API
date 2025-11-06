@@ -223,3 +223,29 @@ def list_transports():
     } for t in transports]
 
     return jsonify(result), 200
+
+
+# ----------------------------------------------------------------------------
+# NEGOTIATION ROUTES
+# ----------------------------------------------------------------------------
+
+@negotiation_bp.route("", methods=["POST"])
+@jwt_required()
+def start_negotiation():
+    """Start a negotiation related to a product/input/transport"""
+
+    user_id = get_jwt_identity()
+    data = request.get_json()
+
+    negotiation = Negotiation(
+        user_id=user_id,
+        product_id=data.get("product_id"),
+        input_id=data.get("input_id"),
+        transport_id=data.get("transport_id"),
+        messages=data.get("messages", [])
+    )
+
+    db.session.add(negotiation)
+    db.session.commit()
+
+    return jsonify({"message": "megotiation started", "negotiation_id": negotiation.id})
