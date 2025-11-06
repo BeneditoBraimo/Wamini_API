@@ -309,3 +309,25 @@ def send_message(negotiation_id):
             "timestamp": message.timestamp.isoformat()
         }
     }), 201
+
+
+
+@negotiation_bp.route("/<int:negotiation_id>/messages", methods=["GET"])
+@jwt_required()
+def get_messages(negotiation_id):
+    """
+        Retrieve all messages within a negotiation.
+        Only participants can participate in the thread.
+    """
+
+    user_id = get_jwt_identity()
+    negotiation = Negotiation.query.get_or_404(negotiation_id)
+
+    messages = Message.query.filter_by(negotiation_id=negotiation.id).order_by(Message.timestamp.asc()).all()
+
+    result = [{
+        "id": m.id,
+        "sender_id": m.sender_id,
+        "body": m.body,
+        "timestamp": m.timestamp.isoformat()
+    } for m in messages]
