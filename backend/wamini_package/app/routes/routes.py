@@ -208,3 +208,17 @@ def add_transport():
         "message": "Transport dervice added successfully",
         "transport_id": transport.id
     }), 201
+
+
+@transport_bp.route("", methods=["GET"])
+def list_transports():
+    transports = Transport.query.all()
+    result = [{
+        "id": t.id,
+        "transport_type": t.transport_type,
+        "name": t.name,
+        "price_per_km": t.price_per_km,
+        "user_id": t.user_id
+    } for t in transports]
+
+    return jsonify(result), 200
