@@ -1,12 +1,19 @@
+"""
+__init__.py
+-------------------------------------------------------------------------
+
+initializes and registers all route blueprints for Wamini backend API.
+"""
+
 from flask import Flask
 from flask_cors import CORS
-from .routes.main_routes import main
 
-def create_app():
-    app = Flask(__name__)
-    CORS(app)
+# import blueprints from routes.py
 
-    # Register Blueprints
-    app.register_blueprint(main)
-    
-    return app
+from .routes import (
+    user_bp, 
+    product_bp,
+    input_bp,
+    transport_bp,
+    negotiation_bp
+)
