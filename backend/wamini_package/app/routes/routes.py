@@ -248,4 +248,4 @@ def start_negotiation():
     db.session.add(negotiation)
     db.session.commit()
 
-    return jsonify({"message": "megotiation started", "negotiation_id": negotiation.id})
+    return jsonify({"message": "megotiation started", "negotiation_id": negotiation.id}), 201
