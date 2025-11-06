@@ -212,6 +212,7 @@ def add_transport():
 
 @transport_bp.route("", methods=["GET"])
 def list_transports():
+    """List all transport services."""
     transports = Transport.query.all()
     result = [{
         "id": t.id,
