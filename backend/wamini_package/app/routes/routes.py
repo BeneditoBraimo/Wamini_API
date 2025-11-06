@@ -148,11 +148,12 @@ def add_input():
     """Add an agricultural Input."""
     user_id = get_jwt_identity()
     data = request.get_json()
+
     new_input = Input(
         name=data["name"],
-        quantity=data["quantity"];
+        quantity=data["quantity"],
         price=data["price"],
-        photo=data["photo"]
+        photo=data["photo"],
         user_id=user_id
     )
 
