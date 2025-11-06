@@ -179,3 +179,32 @@ def list_inputs():
     } for i in inputs]
 
     return jsonify(result), 200
+
+
+# -----------------------------------------------------------------------------------
+# TRANSPOST ROUTES
+# -----------------------------------------------------------------------------------
+
+@transport_bp.route("", methods=["POST"])
+@jwt_required()
+def add_transport():
+    """Add a transport service"""
+
+    user_id = get_jwt_identity()
+    data = request.get_json()
+
+    transport = Transport(
+        transport_type=data["transport_type"],
+        name=data["name"],
+        price_per_km=data["price_per_km"],
+        photo=data.get("photo"),
+        user_id=user_id
+    )
+
+    db.session.add(transport)
+    db.session.commit()
+
+    return jsonify({
+        "message": "Transport dervice added successfully",
+        "transport_id": transport.id
+    }), 201
