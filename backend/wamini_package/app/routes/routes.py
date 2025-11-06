@@ -331,3 +331,5 @@ def get_messages(negotiation_id):
         "body": m.body,
         "timestamp": m.timestamp.isoformat()
     } for m in messages]
+
+    return jsonify(result), 200
