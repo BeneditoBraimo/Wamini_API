@@ -249,3 +249,24 @@ def start_negotiation():
     db.session.commit()
 
     return jsonify({"message": "megotiation started", "negotiation_id": negotiation.id}), 201
+
+
+
+@negotiation_bp.route("", methods=["GET"])
+@jwt_required()
+def list_negotiations():
+    """List all negotiations of the logged-in user."""
+
+    user_id = get_jwt_identity()
+    negotiations = Negotiation.query.filter_by(user_id=user_id).all()
+
+    result = [{
+        "id": n.id,
+        "messages": n.messages,
+        "created_at": n.created_at,
+        "product_id": n.product_id,
+        "input_id": n.input_id,
+        "transport_id": n.transport_id
+    } for n in negotiations]
+
+    return jsonify(result), 200
