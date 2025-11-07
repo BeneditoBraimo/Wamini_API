@@ -54,7 +54,7 @@ class User(db.Model):
     negotiations = db.relationship('Negotiation', backref='user', lazy=True)
 
     def __repr__(self):
-        return f"<User id={self.id} name={self.name!r}>"
+        return f"<User id={self.id} name={self.name}>"
 
 
     
