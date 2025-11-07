@@ -130,7 +130,7 @@ def delete_product(product_id):
     user_id = get_jwt_identity()
     product = Product.query.get_or_404(product_id)
 
-    if product_id.user_id != user_id:
+    if product.user_id != user_id:
         return jsonify({"error": "unauthorized"}), 403
     
     db.session.delete(product)
