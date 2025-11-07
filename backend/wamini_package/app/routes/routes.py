@@ -55,7 +55,7 @@ def register_user():
 def login_user():
     """Authenticate and return access token."""
     data = request.get_json()
-    user = User.query.filter_by(mobile_number=data.get("mobile_number").first())
+    user = User.query.filter_by(mobile_number=data.get("mobile_number")).first()
     if not user or not check_password_hash(user.password, data.get("password")):
         return jsonify({"error": "Invalid credentials"}), 401
     
