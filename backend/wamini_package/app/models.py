@@ -108,7 +108,7 @@ class Input(db.Model):
     name = db.Column(db.String(120), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
-    publish_date = db.Column(db.DateTime, default=datetime.utcnow)
+    publish_date = db.Column(db.DateTime, default=datetime.timezone.utc)
     photo = db.Column(db.String(255))
     user_id = db.Colum(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
