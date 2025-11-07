@@ -7,7 +7,7 @@ initializes and registers all route blueprints for Wamini backend API.
 import os
 from flask import Flask
 from flask_cors import CORS
-
+from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
 from ..models import db
@@ -45,6 +45,9 @@ def create_app():
     db.init_app(app)
     JWTManager(app)
 
+    # Initialize Flask-Migrate
+    migrate = Migrate(app, db)
+    
     # Register Blueprints with URL prefixes already defined in routes.py
     app.register_blueprint(user_bp)
     app.register_blueprint(product_bp)
