@@ -20,8 +20,8 @@ from ..models import db, User, Product, Input, Transport, Negotiation, Message
 #---------------------------------------------------------------------------------
 # Blueprints Declarations
 #---------------------------------------------------------------------------------
-user_bp = Blueprint("users", __name__, url_prefix="api/v1/users")
-product_bp = Blueprint("products", __name__, url_prefix="api/v1/products")
+user_bp = Blueprint("users", __name__, url_prefix="/api/v1/users")
+product_bp = Blueprint("products", __name__, url_prefix="/api/v1/products")
 input_bp = Blueprint("inputs", __name__, url_prefix="/api/v1/inputs")
 transport_bp = Blueprint("transports", __name__, url_prefix="/api/v1/transports")
 negotiation_bp = Blueprint("negotiations", __name__, url_prefix="/api/v1/negotiations")
