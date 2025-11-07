@@ -10,10 +10,10 @@ from flask_cors import CORS
 from flask_migrate import Migrate
 from flask_jwt_extended import JWTManager
 from dotenv import load_dotenv
-from .models import db
+from wamini_package.app.models import db
 # import blueprints from routes.py
 
-from .routes.routes import (
+from wamini_package.app.routes.routes import (
     user_bp, 
     product_bp,
     input_bp,
