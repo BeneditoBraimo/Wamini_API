@@ -167,7 +167,7 @@ class Negotiation(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     input_id = db.Column(db.Integer, db.ForeignKey('inputs.id'))
     transport_id = db.Column(db.Integer, db.ForeignKey('transports.id'))
-
+    messages_rel = db.relationship('Message', backref='negotiation')
     def __repr__(self):
         return f"<Negotiation id={self.id} user_id={self.user_id}>"
 
