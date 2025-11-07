@@ -167,7 +167,7 @@ class Negotiation(db.Model):
     product_id = db.Column(db.Integer, db.ForeignKey('products.id'))
     input_id = db.Column(db.Integer, db.ForeignKey('inputs.id'))
     transport_id = db.Column(db.Integer, db.ForeignKey('transports.id'))
-    messages_rel = db.relationship('Message', backref='negotiation')
+    messages_rel = db.relationship('Message', backref='negotiation', lazy=True, cascade="all, delete-orphan")
     def __repr__(self):
         return f"<Negotiation id={self.id} user_id={self.user_id}>"
 
@@ -217,6 +217,7 @@ class Message(db.Model):
     negotiation_id = db.Column(db.Integer, db.ForeignKey('negotiations.id'), nullable=False)
     body = db.Column(db.Text, nullable=False)
     timestamp = db.Column(db.DateTime, default=lambda: datetime.now(datetime.timezone.utc))
+    sender = db.relationship('User', backref='messages')
 
     def __repr__(self):
         """Return a string representation for debugging."""
