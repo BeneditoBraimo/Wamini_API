@@ -34,7 +34,7 @@ negotiation_bp = Blueprint("negotiations", __name__, url_prefix="/api/v1/negotia
 def register_user():
     "register a new user"
     data = request.get_json()
-    if User.query.filter_by(mobile_number=data.get("mobile_number").first()):
+    if User.query.filter_by(mobile_number=data.get("mobile_number")).first():
         return jsonify({"error": "Mobile number already registered"}), 409
     
     hashed_pw = generate_password_hash(data.get("password"))
