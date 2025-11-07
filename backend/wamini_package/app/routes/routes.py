@@ -30,7 +30,7 @@ negotiation_bp = Blueprint("negotiations", __name__, url_prefix="/api/v1/negotia
 # USER ROUTES
 #-------------------------------------------------------------------------------------
 
-@user_bp.route("/register", methods=["POST"])
+@user_bp.route("/register", methods=["POST"], endpoint='user_register')
 def register_user():
     "register a new user"
     data = request.get_json()
@@ -51,7 +51,7 @@ def register_user():
     db.session.commit()
     return jsonify({"message":"User successfully registered.", "user_id": user.id}), 201
 
-@user_bp.route("/login", methods=["POST"])
+@user_bp.route("/login", methods=["POST"], endpoint='user_login')
 def login_user():
     """Authenticate and return access token."""
     data = request.get_json()
@@ -67,7 +67,7 @@ def login_user():
         "user": {"id":user.id, "name": user.name}
     }), 200
 
-@user_bp.route("/profile", methods=["GET"])
+@user_bp.route("/profile", methods=["GET"], endpoint='profile_get')
 @jwt_required
 def get_profile():
     """Retrieve logged-in user's profile"""
@@ -86,7 +86,7 @@ def get_profile():
 #   PRODUCT ROUTES
 #------------------------------------------------------------------------------------------
 
-@product_bp.route("", methods=["POST"])
+@product_bp.route("", methods=["POST"], endpoint='product_get')
 @jwt_required
 def add_product():
     """Publish a new product."""
@@ -107,7 +107,7 @@ def add_product():
     return jsonify({"message": "Product added successfully", "product_id": product.id}), 201
 
 
-@product_bp.route("", methods=["GET"])
+@product_bp.route("", methods=["GET"], endpoint='product_list')
 def list_products():
     """List all products."""
     products = Product.query.all()
@@ -123,7 +123,7 @@ def list_products():
 
     return jsonify(result), 200
 
-@product_bp.route("/<int:product_id>", methods=["DELETE"])
+@product_bp.route("/<int:product_id>", methods=["DELETE"], endpoint='product_delete')
 @jwt_required
 def delete_product(product_id):
     """Delete a product (only by the owner)"""
@@ -142,7 +142,7 @@ def delete_product(product_id):
 # INPUT ROUTES
 #---------------------------------------------------------------------------
 
-@input_bp.route("", methods=["POST"])
+@input_bp.route("", methods=["POST"], endpoint='input_add')
 @jwt_required()
 def add_input():
     """Add an agricultural Input."""
@@ -163,7 +163,7 @@ def add_input():
     return jsonify({"message": "Input added successfully", "input_id": new_input.id}), 201
 
 
-@input_bp.route("", methods=["GET"])
+@input_bp.route("", methods=["GET"], endpoint='inputs_list')
 def list_inputs():
     """List all agricultural inputs"""
 
@@ -185,7 +185,7 @@ def list_inputs():
 # TRANSPOST ROUTES
 # -----------------------------------------------------------------------------------
 
-@transport_bp.route("", methods=["POST"])
+@transport_bp.route("", methods=["POST"], endpoint='transport_add')
 @jwt_required()
 def add_transport():
     """Add a transport service"""
@@ -210,7 +210,7 @@ def add_transport():
     }), 201
 
 
-@transport_bp.route("", methods=["GET"])
+@transport_bp.route("", methods=["GET"], endpoint='transport_list')
 def list_transports():
     """List all transport services."""
     transports = Transport.query.all()
@@ -229,7 +229,7 @@ def list_transports():
 # NEGOTIATION ROUTES
 # ----------------------------------------------------------------------------
 
-@negotiation_bp.route("", methods=["POST"])
+@negotiation_bp.route("", methods=["POST"], endpoint='negotiation_start')
 @jwt_required()
 def start_negotiation():
     """Start a negotiation related to a product/input/transport"""
@@ -252,7 +252,7 @@ def start_negotiation():
 
 
 
-@negotiation_bp.route("", methods=["GET"])
+@negotiation_bp.route("", methods=["GET"], endpoint='negotiations_list')
 @jwt_required()
 def list_negotiations():
     """List all negotiations of the logged-in user."""
@@ -276,7 +276,7 @@ def list_negotiations():
 # MESSAGE ROUTES
 # --------------------------------------------------------------------------------------------
 
-@negotiation_bp.route("/<int:negotiation_id>/messages", methods=["POST"])
+@negotiation_bp.route("/<int:negotiation_id>/messages", methods=["POST"], endpoint='message_send')
 @jwt_required()
 def send_message(negotiation_id):
     """
@@ -312,7 +312,7 @@ def send_message(negotiation_id):
 
 
 
-@negotiation_bp.route("/<int:negotiation_id>/messages", methods=["GET"])
+@negotiation_bp.route("/<int:negotiation_id>/messages", methods=["GET"], endpoint='messages_get')
 @jwt_required()
 def get_messages(negotiation_id):
     """
