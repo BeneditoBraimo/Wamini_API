@@ -108,7 +108,7 @@ class Input(db.Model):
     name = db.Column(db.String(120), nullable=False)
     quantity = db.Column(db.Integer, nullable=False)
     price = db.Column(db.Float, nullable=False)
-    publish_date = db.Column(db.DateTime, default=datetime.timezone.utc)
+    publish_date = db.Column(db.DateTime, default=datetime.utcnow)
     photo = db.Column(db.String(255))
     user_id = db.Colum(db.Integer, db.ForeignKey('users.id'), nullable=False)
 
@@ -216,7 +216,7 @@ class Message(db.Model):
     sender_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     negotiation_id = db.Column(db.Integer, db.ForeignKey('negotiations.id'), nullable=False)
     body = db.Column(db.Text, nullable=False)
-    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(datetime.timezone.utc))
+    timestamp = db.Column(db.DateTime, default=lambda: datetime.now(datetime.utcnow))
     sender = db.relationship('User', backref='messages')
 
     def __repr__(self):
