@@ -21,6 +21,9 @@ from .routes import (
     negotiation_bp
 )
 
+ # Load environment variables from backend/wamini_package/.env
+env_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
+load_dotenv(env_path)
 
 def create_app():
     """
@@ -29,9 +32,6 @@ def create_app():
             app (Flask): configured Flask application instance.
     """
 
-    # Load environment variables from backend/wamini_package/.env
-    env_path = os.path.join(os.path.dirname(__file__), '..', '..', '.env')
-    load_dotenv(env_path)
 
     app = Flask(__name__)
     CORS(app)
