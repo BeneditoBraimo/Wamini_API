@@ -39,9 +39,11 @@ def create_app():
     # Basic configurations
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
-    app.config['SQLAALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
-    
+    # Initialize extensions
+    db.init_app(app)
+    JWTManager(app)
 
     # Register Blueprints with URL prefixes already defined in routes.py
     app.register_blueprint(user_bp)
