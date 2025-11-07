@@ -37,7 +37,7 @@ def create_app():
     CORS(app)
 
     # Basic configurations
-    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'default_secret')
+    app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
@@ -47,7 +47,7 @@ def create_app():
 
     # Initialize Flask-Migrate
     migrate = Migrate(app, db)
-    
+
     # Register Blueprints with URL prefixes already defined in routes.py
     app.register_blueprint(user_bp)
     app.register_blueprint(product_bp)
