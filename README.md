@@ -25,22 +25,6 @@ The API is built using **Flask**, **Flask-SQLAlchemy**, **Flask-Migrate**, and *
 - Git
 - pip (Python package manager)
 
----
-
-## Project Structure
-wamini_package/
-│
-├─ app/
-│ ├─ init.py # Flask app factory
-│ ├─ models.py # Database models
-│ ├─ routes/
-│ │ ├─ init.py
-│ │ └─ routes.py # API endpoints
-│
-├─ run.py # Entry point
-├─ .env # Environment variables
-└─ requirements.txt # Python dependencies
-
 
 ---
 
