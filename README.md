@@ -63,4 +63,10 @@ Create .env file in   "wamini_package/"  with the following structure:
       FLASK_DEBUG=True
 
 
+### 5. Set up Flask app environment variables (Windows CMD):
+        set FLASK_APP=wamini_package.run
+        set FLASK_ENV=development
+
+
+
 
