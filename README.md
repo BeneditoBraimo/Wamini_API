@@ -97,3 +97,6 @@ This will create the database tables as defined in models.py script.
 
 
 
+## API Documentation Link
+
+    https://documenter.getpostman.com/view/23453889/2sB3WsR1Cx
