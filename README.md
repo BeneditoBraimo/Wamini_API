@@ -1,6 +1,9 @@
-# Wamini Backend API
+# Wamini Backend API - Project Overview
+# Purpose
 
-This is the backend API for **Wamini**, a platform for agricultural products, inputs, transports, and negotiations.  
+The Wamini backend API is a RESTful service built with Flask that powers an agricultural marketplace platform.
+It enables users to register, publish products and inputs, offer transport services, and negotiate deals — all through secure, token-based communication.
+  
 The API is built using **Flask**, **Flask-SQLAlchemy**, **Flask-Migrate**, and **JWT authentication**.
 
 ---
@@ -76,6 +79,16 @@ This will create the database tables as defined in models.py script.
 
 ### 6. Run the API
       flask run
+
+
+| **Module**          | **Route Prefix**                     | **Key Endpoints**                               | **Description**                                                         |
+| ------------------- | ------------------------------------ | ----------------------------------------------- | ----------------------------------------------------------------------- |
+| **Users**     | `/api/v1/users`                      | `POST /register`, `POST /login`, `GET /profile` | Handles user registration, authentication (JWT), and profile retrieval. |
+|  **Products**     | `/api/v1/products`                   | `POST /`, `GET /`, `DELETE /<id>`               | CRUD operations for agricultural product listings.                      |
+|  **Inputs**       | `/api/v1/inputs`                     | `POST /`, `GET /`                               | CRUD operations for agricultural inputs (e.g., seeds, fertilizers).     |
+| **Transports**   | `/api/v1/transports`                 | `POST /`, `GET /`                               | Adds and lists available transport services.                            |
+| **Negotiations** | `/api/v1/negotiations`               | `POST /`, `GET /`                               | Starts and lists negotiation threads between users.                     |
+| **Messages**     | `/api/v1/negotiations/<id>/messages` | `POST /`, `GET /`                               | Handles messaging within a negotiation thread.                          |
 
 
 
