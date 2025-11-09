@@ -64,9 +64,18 @@ Create .env file in   "wamini_package/"  with the following structure:
 
 
 ### 5. Set up Flask app environment variables (Windows CMD):
-        set FLASK_APP=wamini_package.run
+        set FLASK_APP=run
         set FLASK_ENV=development
 
+#### Initialize the database
+      flask db init
+      flask db migrate -m "Initial migration"
+      flask db upgrade
+
+This will create the database tables as defined in models.py script.
+
+### 6. Run the API
+      flask run
 
 
 
