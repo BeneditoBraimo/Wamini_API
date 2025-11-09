@@ -38,10 +38,13 @@ cd Wamini_API/backend
 ### 2. Creating a virtual environment
 python -m venv venv
 
-### 3. Activate it
-#### Windows:
+#### Activate it
+##### Windows:
         venv\Scripts\activate
-#### Linux/macOS:
+##### Linux/macOS:
         source venv/bin/activate
+
+### 4. Install dependencies
+      pip install -r requirements.txt
 
 
