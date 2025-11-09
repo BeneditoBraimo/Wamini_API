@@ -80,6 +80,10 @@ This will create the database tables as defined in models.py script.
 ### 6. Run the API
       flask run
 
+    The API will run at
+          http://127.0.0.1:5000
+      
+
 ### 7. Main Features and endpoints
 
 | **Module**          | **Route Prefix**                     | **Key Endpoints**                               | **Description**                                                         |
