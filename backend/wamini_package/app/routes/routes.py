@@ -83,7 +83,7 @@ def login_user():
     }), 200
 
 @user_bp.route("/profile", methods=["GET"], endpoint='profile_get')
-@jwt_required
+@jwt_required()
 def get_profile():
     """Retrieve logged-in user's profile"""
     user_id = get_jwt_identity()
@@ -102,7 +102,7 @@ def get_profile():
 #------------------------------------------------------------------------------------------
 
 @product_bp.route("", methods=["POST"], endpoint='product_get')
-@jwt_required
+@jwt_required()
 def add_product():
     """Publish a new product."""
     user_id = get_jwt_identity()
@@ -139,7 +139,7 @@ def list_products():
     return jsonify(result), 200
 
 @product_bp.route("/<int:product_id>", methods=["DELETE"], endpoint='product_delete')
-@jwt_required
+@jwt_required()
 def delete_product(product_id):
     """Delete a product (only by the owner)"""
     user_id = get_jwt_identity()
@@ -158,7 +158,7 @@ def delete_product(product_id):
 #---------------------------------------------------------------------------
 
 @input_bp.route("", methods=["POST"], endpoint='input_add')
-@jwt_required
+@jwt_required()
 def add_input():
     """Add an agricultural Input."""
     user_id = get_jwt_identity()
@@ -201,7 +201,7 @@ def list_inputs():
 # -----------------------------------------------------------------------------------
 
 @transport_bp.route("", methods=["POST"], endpoint='transport_add')
-@jwt_required
+@jwt_required()
 def add_transport():
     """Add a transport service"""
 
@@ -245,7 +245,7 @@ def list_transports():
 # ----------------------------------------------------------------------------
 
 @negotiation_bp.route("", methods=["POST"], endpoint='negotiation_start')
-@jwt_required
+@jwt_required()
 def start_negotiation():
     """Start a negotiation related to a product/input/transport"""
 
@@ -268,7 +268,7 @@ def start_negotiation():
 
 
 @negotiation_bp.route("", methods=["GET"], endpoint='negotiations_list')
-@jwt_required
+@jwt_required()
 def list_negotiations():
     """List all negotiations of the logged-in user."""
 
@@ -292,7 +292,7 @@ def list_negotiations():
 # --------------------------------------------------------------------------------------------
 
 @negotiation_bp.route("/<int:negotiation_id>/messages", methods=["POST"], endpoint='message_send')
-@jwt_required
+@jwt_required()
 def send_message(negotiation_id):
     """
         Send a message within a negotiation thread.
