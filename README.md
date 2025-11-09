@@ -80,7 +80,7 @@ This will create the database tables as defined in models.py script.
 ### 6. Run the API
       flask run
 
-# 7. Main Features and endpoints
+### 7. Main Features and endpoints
 
 | **Module**          | **Route Prefix**                     | **Key Endpoints**                               | **Description**                                                         |
 | ------------------- | ------------------------------------ | ----------------------------------------------- | ----------------------------------------------------------------------- |
