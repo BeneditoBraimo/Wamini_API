@@ -75,7 +75,7 @@ def login_user():
         return jsonify({"error": "Invalid credentials"}), 401
     
     expires = timedelta(hours=24)
-    access_token = create_access_token(identity=user.id, expires_delta=expires)
+    access_token = create_access_token(identity=str(user.id), expires_delta=expires)
 
     return jsonify({
         "access_token": access_token,
@@ -86,7 +86,7 @@ def login_user():
 @jwt_required()
 def get_profile():
     """Retrieve logged-in user's profile"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     user = User.query.get_or_404(user_id)
     return jsonify({
         "id": user.id,
@@ -105,7 +105,7 @@ def get_profile():
 @jwt_required()
 def add_product():
     """Publish a new product."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
 
     product = Product(
@@ -142,7 +142,7 @@ def list_products():
 @jwt_required()
 def delete_product(product_id):
     """Delete a product (only by the owner)"""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     product = Product.query.get_or_404(product_id)
 
     if product.user_id != user_id:
@@ -161,7 +161,7 @@ def delete_product(product_id):
 @jwt_required()
 def add_input():
     """Add an agricultural Input."""
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
 
     new_input = Input(
@@ -205,7 +205,7 @@ def list_inputs():
 def add_transport():
     """Add a transport service"""
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
 
     transport = Transport(
@@ -249,7 +249,7 @@ def list_transports():
 def start_negotiation():
     """Start a negotiation related to a product/input/transport"""
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
 
     negotiation = Negotiation(
@@ -272,7 +272,7 @@ def start_negotiation():
 def list_negotiations():
     """List all negotiations of the logged-in user."""
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     negotiations = Negotiation.query.filter_by(user_id=user_id).all()
 
     result = [{
@@ -299,7 +299,7 @@ def send_message(negotiation_id):
         Requires authentication. The sender must be a registered user.
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     data = request.get_json()
 
     negotiation = Negotiation.query.get_or_404(negotiation_id)
@@ -335,7 +335,7 @@ def get_messages(negotiation_id):
         Only participants can participate in the thread.
     """
 
-    user_id = get_jwt_identity()
+    user_id = int(get_jwt_identity())
     negotiation = Negotiation.query.get_or_404(negotiation_id)
 
     messages = Message.query.filter_by(negotiation_id=negotiation.id).order_by(Message.timestamp.asc()).all()
