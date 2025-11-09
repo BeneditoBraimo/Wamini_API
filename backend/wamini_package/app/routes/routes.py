@@ -220,7 +220,7 @@ def add_transport():
     db.session.commit()
 
     return jsonify({
-        "message": "Transport dervice added successfully",
+        "message": "Transport service added successfully",
         "transport_id": transport.id
     }), 201
 
