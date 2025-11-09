@@ -32,24 +32,39 @@ negotiation_bp = Blueprint("negotiations", __name__, url_prefix="/api/v1/negotia
 
 @user_bp.route("/register", methods=["POST"], endpoint='user_register')
 def register_user():
-    "register a new user"
+    """Register a new user safely"""
     data = request.get_json()
+
+    if not data:
+        return jsonify({"error": "Invalid JSON body"}), 400
+
+    # Ensure required fields exist
+    required_fields = ["name", "mobile_number", "password"]
+    for field in required_fields:
+        if not data.get(field):
+            return jsonify({"error": f"'{field}' is required"}), 400
+
+    # Check if mobile number is already registered
     if User.query.filter_by(mobile_number=data.get("mobile_number")).first():
         return jsonify({"error": "Mobile number already registered"}), 409
-    
-    hashed_pw = generate_password_hash(data.get("password"))
 
+    # Hash password
+    hashed_pw = generate_password_hash(data["password"])
+
+    # Create user
     user = User(
-        name = data.get("name"),
-        localization = data.get("localization"),
-        password = hashed_pw,
-        mobile_number=data.get("mobile_number"),
+        name=data["name"],
+        localization=data.get("localization"),
+        password=hashed_pw,
+        mobile_number=data["mobile_number"],
         photo=data.get("photo")
     )
 
     db.session.add(user)
     db.session.commit()
-    return jsonify({"message":"User successfully registered.", "user_id": user.id}), 201
+
+    return jsonify({"message": "User successfully registered.", "user_id": user.id}), 201
+
 
 @user_bp.route("/login", methods=["POST"], endpoint='user_login')
 def login_user():
