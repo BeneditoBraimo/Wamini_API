@@ -32,11 +32,11 @@ The API is built using **Flask**, **Flask-SQLAlchemy**, **Flask-Migrate**, and *
 
 ### 1. Clone the repository
 
-git clone <repository_url>
-cd Wamini_API/backend
+      git clone <repository_url>
+      cd Wamini_API/backend
 
 ### 2. Creating a virtual environment
-python -m venv venv
+      python -m venv venv
 
 #### Activate it
 ##### Windows:
@@ -45,6 +45,6 @@ python -m venv venv
         source venv/bin/activate
 
 ### 4. Install dependencies
-      pip install -r requirements.txt
+        pip install -r requirements.txt
 
 
