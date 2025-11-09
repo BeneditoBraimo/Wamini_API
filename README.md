@@ -49,6 +49,7 @@ The API is built using **Flask**, **Flask-SQLAlchemy**, **Flask-Migrate**, and *
 
 ### 4. Set up environment variables
 Create .env file in   wamini_package/  with the following structure:
+      
       # Secret key for Flask sessions and JWT
       SECRET_KEY=your_secret_key_here
 
