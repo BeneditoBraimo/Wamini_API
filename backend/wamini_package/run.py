@@ -1,23 +1,18 @@
+# backend/wamini_package/run.py
+
+from wamini_package.app import create_app
 import os
-from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
 
-db = SQLAlchemy()
+# Create a Flask app instance using the factory pattern
+app = create_app()
 
-def create_app():
-    app = Flask(__name__)
+# Only run the Flask development server if this file is executed directly
+if __name__ == "__main__":
+    # Determine if the app should run in debug mode based on the environment
+    debug_mode = os.getenv("FLASK_ENV") == "development"
     
-    # Configurações
-    app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get("DATABASE_URL")
-    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-    app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
-    app.config["JWT_SECRET_KEY"] = os.environ.get("JWT_SECRET_KEY")
-    
-    # Inicializa extensões
-    db.init_app(app)
-    
-    # Importar e registrar Blueprints aqui
-    # from wamini_package.routes import bp
-    # app.register_blueprint(bp)
-    
-    return app
+    # Run the Flask development server locally
+    # host="0.0.0.0" allows external access
+    # port is taken from the PORT environment variable (Render provides this)
+    # debug_mode enables debug mode only in development
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=debug_mode)
