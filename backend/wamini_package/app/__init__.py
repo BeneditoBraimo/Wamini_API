@@ -58,8 +58,7 @@ def create_app():
     app.register_blueprint(negotiation_bp)
 
     # Automatically create all tables on the first request (works in Render Free)
-    @app.before_first_request
-    def create_tables():
+    with app.app_context():
         db.create_all()
         print("All tables created successfully!")
 
