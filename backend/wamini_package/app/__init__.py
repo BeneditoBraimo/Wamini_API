@@ -3,7 +3,7 @@ __init__.py
 -------------------------------------------------------------------------
 
 Initializes and registers all route blueprints for Wamini backend API.
-Compatible with Render deployment.
+Compatible with Render Free deployment. Automatically creates tables on first request.
 """
 
 import os
@@ -33,8 +33,7 @@ def create_app():
     app = Flask(__name__)
     CORS(app)
 
-    # Load configurations from environment variables
-    # Use local .env only in development
+    # Load environment variables from .env only in development
     if os.getenv("FLASK_ENV") == "development":
         from dotenv import load_dotenv
         env_path = os.path.join(os.path.dirname(__file__), '..', '.env')
@@ -43,7 +42,7 @@ def create_app():
     # Basic configurations
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
     app.config['JWT_SECRET_KEY'] = os.getenv('JWT_SECRET_KEY')
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # Render PostgreSQL URL
+    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('DATABASE_URL')  # Use Render external DB URL
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
     # Initialize extensions
@@ -51,11 +50,17 @@ def create_app():
     JWTManager(app)
     migrate = Migrate(app, db)
 
-    # Register Blueprints with URL prefixes defined in routes.py
+    # Register Blueprints
     app.register_blueprint(user_bp)
     app.register_blueprint(product_bp)
     app.register_blueprint(input_bp)
     app.register_blueprint(transport_bp)
     app.register_blueprint(negotiation_bp)
+
+    # Automatically create all tables on the first request (works in Render Free)
+    @app.before_first_request
+    def create_tables():
+        db.create_all()
+        print("All tables created successfully!")
 
     return app
