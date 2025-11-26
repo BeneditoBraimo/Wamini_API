@@ -57,6 +57,9 @@ def create_app():
     app.register_blueprint(transport_bp)
     app.register_blueprint(negotiation_bp)
 
+    @app.route("/")
+    def index():
+        return "✅ Wamini API is running!"
     # Automatically create all tables on the first request (works in Render Free)
     with app.app_context():
         db.create_all()
