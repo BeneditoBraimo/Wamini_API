@@ -59,7 +59,7 @@ def create_app():
 
     @app.route("/")
     def index():
-        return "✅ Wamini API is running!"
+        return "Wamini API is running!"
     # Automatically create all tables on the first request (works in Render Free)
     with app.app_context():
         db.create_all()
